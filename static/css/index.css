@@ -1,0 +1,96 @@
+.overview {
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+}
+
+.overview-item {
+    text-align: center;
+    margin-bottom: 10px;
+
+}
+
+.overview-item h1 {
+    color: #337ab7;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+.status {
+    border: 1px solid #D8D8D8;
+    margin-top: 20px;
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 4px;
+}
+
+.status ul{
+    border: none;
+}
+
+.status li {
+    width: 50%;
+    border: none;
+    text-align: center;
+
+}
+
+.status li > a {
+    border-radius: 0;
+    background-color: #9d9d9d;
+    border: none;
+    color: #ffffff;
+    margin-right: 0;
+}
+
+.status li>a:active,.status li>a:hover{
+    border-radius: 0;
+    border: none;
+    background-color: #9d9d9d;
+}
+
+
+.status li:active {
+    border: none;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    border: none;
+}
+
+
+.job-overview{
+    margin-top: 20px;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+
+.job-overview-left{
+    float: left;
+    width: 49.5%;
+}
+
+.job-overview-left .panel-footer{
+    padding: 0;
+}
+
+.job-overview-left .btn{
+    border-radius: 0;
+    width: 100%;
+}
+
+
+.job-overview-right{
+    float: right;
+    width: 49.5%;
+}
+
+
+.job-overview-right .panel-footer{
+    padding: 0;
+}
+
+.job-overview-right .btn{
+    border-radius: 0;
+    width: 100%;
+}

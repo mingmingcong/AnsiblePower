@@ -1,0 +1,33 @@
+
+.form-horizontal {
+    margin-top: 10px;
+}
+
+.form-horizontal .form-group {
+    margin-left: 30px;
+}
+
+.command-info {
+    border-left: none;
+    border-right: none;
+}
+
+.host-info {
+    border-left: none;
+    border-right: none;
+}
+
+.log-body {
+    max-height: 500px;
+    overflow: scroll;
+}
+
+.log-pre {
+    color: #1AE222;
+    background-color: #000000;
+    display: inline-block;
+    border-radius: 0;
+    min-width: 100%;
+    font-size: 12px;
+    font-family: Consolas;
+}

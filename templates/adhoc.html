@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/adhoc.css">
+{% endblock %}
+
+
+{% block content %}
+    <div class="container search-container">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input class="form-control" type="text" placeholder="search">
+
+
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <div class="container adhoc-table">
+        <table class="table table-striped ">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th><i class="fa fa-cubes fa-lg"></i> Module</th>
+                <th><i class="fa fa-at fa-lg"></i> Args</th>
+                <th><i class="fa fa-clock-o fa-lg"></i> Start time</th>
+                <th><i class="fa fa-gears fa-lg"></i> Operation</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for adhoc in adhocs %}
+                <tr>
+                    <td width="15%">{{ adhoc.adhoc_name }}</td>
+                    <td width="15%">{{ adhoc.ansible_module.module_name }}</td>
+                    <td width="40%">{{ adhoc.adhoc_args }}</td>
+                    <td width="20%">{{ adhoc.start_time|date:"Y-m-d G:i:s" }}</td>
+                    <td>
+                        <a class="ops-link" href="{% url 'adhoc_list' %}{{ adhoc.id }}"><i class="fa fa-file "></i></a>
+                        <a class="ops-link retry" href="javascript:void(0)" adhoc_id="{{ adhoc.id }}"><i class="fa fa-repeat"></i></a>
+                        <a class="ops-link" href="javascript:void(0)"><i class="fa fa-trash "></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include 'paginate.html' %}
+
+
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">New Command</h4>
+                </div>
+                <form class="form-horizontal" action="{% url 'adhoc_add' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">name</label>
+
+                            <div class="col-sm-6">
+                                <input class="form-control" name="adhoc_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">pattern</label>
+
+                            <div class="col-sm-6">
+                                <input class="form-control" name="adhoc_pattern">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">module</label>
+
+                            <div class="col-sm-6">
+                                <select class="form-control" name="module_id">
+                                    {% for module in modules %}
+                                        <option value="{{ module.id }}">{{ module.module_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">args</label>
+
+                            <div class="col-sm-6">
+                                <input class="form-control" name="adhoc_args">
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Run</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/js/adhoc.js"></script>
+<script>
+        var adhoc_add = "{% url 'adhoc_add' %}";
+        $(function(){
+            Adhoc.init();
+        })
+</script>
+{% endblock %}

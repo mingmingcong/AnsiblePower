@@ -1,0 +1,25 @@
+.search-container  .form-control{
+    width: 50%;
+}
+
+
+.search-container button{
+    float: right;
+}
+
+.adhoc-table{
+    margin-top: 20px;
+}
+
+
+
+
+.ops-link{
+    padding-right: 15px;
+}
+
+
+
+.page{
+    text-align: center;
+}

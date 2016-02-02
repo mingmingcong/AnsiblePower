@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container overview">
+        <div class="col-lg-2 overview-item">
+            <div class="row"><h1>51</h1></div>
+            <div class="row">hosts</div>
+        </div>
+        <div class="col-lg-2 overview-item">
+            <div class="row"><h1>51</h1></div>
+            <div class="row">Failed hosts</div>
+        </div>
+        <div class="col-lg-2 overview-item">
+            <div class="row"><h1>51</h1></div>
+            <div class="row">Inventories</div>
+        </div>
+        <div class="col-lg-2 overview-item">
+            <div class="row"><h1>51</h1></div>
+            <div class="row">Inventory Failures</div>
+        </div>
+        <div class="col-lg-2 overview-item">
+            <div class="row"><h1>51</h1></div>
+            <div class="row">Projects</div>
+        </div>
+        <div class="col-lg-2 overview-item">
+            <div class="row"><h1>51</h1></div>
+            <div class="row">Project Sync Failures</div>
+        </div>
+
+    </div>
+
+
+    <div class="container status">
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                          data-toggle="tab">Job Status</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
+                                           data-toggle="tab">Host Status</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home"></div>
+                <div role="tabpanel" class="tab-pane" id="profile"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container job-overview">
+        <div class="panel panel-default job-overview-left">
+            <div class="panel-heading">
+                <h3 class="panel-title">Recently Used Job Templates</h3>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary">See all Job Templates</button>
+            </div>
+        </div>
+        <div class="panel panel-default job-overview-right">
+            <div class="panel-heading">
+                <h3 class="panel-title">Recent Job Runs</h3>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary">See all Job Runs</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

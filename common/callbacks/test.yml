@@ -1,0 +1,15 @@
+---
+  - name: deploy Blog
+    hosts: testserver
+
+
+    tasks:
+
+    - name: '{{table_name}}:{{task_id}}:nginx_check'
+      shell: nginx -t
+
+    - name: '{{jobid}}'
+      shell: nginx -s reload
+
+    - name: '{{jobid}}'
+      shell: hostname

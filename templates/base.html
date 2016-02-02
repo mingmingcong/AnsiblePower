@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ansible Power</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/base.css">
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand">POWER</a>
+        </div>
+        <nav id="bs-navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Hosts</a></li>
+                <li><a href="#">Inventories</a></li>
+                <li><a href="{% url 'adhoc_list' %}">Commands</a></li>
+                <li><a href="/admin/playbook/ansibleplaybook/">Playbook Templates</a></li>
+                <li><a href="#">Playbooks</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><i class="fa fa-user fa-lg"></i> admin</a></li>
+            </ul>
+
+        </nav>
+    </div>
+</header>
+
+{% block content %}
+{% endblock %}
+
+
+
+<script type="text/javascript" src="/static/js/vender/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/static/js/vender/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/vender/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/static/js/vender/bootbox.min.js"></script>
+<script type="text/javascript" src="/static/js/vender/jquery.cookies.2.2.0.min.js"></script>
+<script type="text/javascript" src="/static/js/base.js"></script>
+<script>
+    $(function () {
+        Ansible.init();
+    })
+</script>
+{% block script %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% for task  in adhoc.ansibleadhoctask_set.all %}
+    <tr>
+        <td>{{ task.task_host }}</td>
+        <td>{{ task.start_time|date:"Y-m-d G:i:s" }}</td>
+        <td>{{ task.end_time|date:"Y-m-d G:i:s" }}</td>
+        <td>
+            {% if task.finish == True %}
+                {% if task.failure == True %}
+                    <i class="fa fa-circle status-fail"></i>
+                {% else %}
+                    <i class="fa fa-circle status-success"></i>
+                {% endif %}
+
+            {% else %}
+                <i class="fa fa-circle status-process"></i>
+            {% endif %}
+        </td>
+        <td>
+            <a class="task-log" href="#" data-toggle="modal" data-target="#myModal" adhoc_task_id="{{ task.id }}"><i
+                    class="fa fa-search-plus"></i></a>
+        </td>
+    </tr>
+{% endfor %}

@@ -1,0 +1,15 @@
+
+/* status icon */
+
+.status-success{
+    color: #00BD00;
+}
+
+
+.status-process{
+    color: #E7960B;
+}
+
+.status-fail{
+    color: red;
+}

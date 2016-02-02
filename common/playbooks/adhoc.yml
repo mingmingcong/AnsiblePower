@@ -1,0 +1,7 @@
+  - name: '{{task_id}}'
+    hosts: '{{hosts}}'
+
+    tasks:
+
+    - name: '{{table_name}}:{{task_id}}'
+      module_name : '{{module_args}}'
