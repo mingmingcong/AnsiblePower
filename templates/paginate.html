@@ -1,18 +1,18 @@
 <nav class="page">
     <ul class="pagination">
-        {% if adhocs.has_previous %}
-            <li class=""><a href="/adhoc/?page={{ adhocs.previous_page_number }}{% if query %}&query={{ query }}{% endif %}"
+        {% if jobs.has_previous %}
+            <li class=""><a href="/job/?page={{ jobs.previous_page_number }}{% if query %}&query={{ query }}{% endif %}"
                             aria-label="Previous"><span aria-hidden="true">prev</span></a></li>
         {% endif %}
-        {% for i in adhocs.paginator.page_range %}
-            <li class="{% if adhocs.number == i %}active{% endif %}"><a
-                    href="/adhoc/?page={{ i }}{% if query %}&query={{ query }}{% endif %}">{{ i }}<span
+        {% for i in jobs.paginator.page_range %}
+            <li class="{% if jobs.number == i %}active{% endif %}"><a
+                    href="/job/?page={{ i }}{% if query %}&query={{ query }}{% endif %}">{{ i }}<span
                     class="sr-only">(current)</span></a>
             </li>
         {% endfor %}
-        {% if adhocs.has_next %}
+        {% if jobs.has_next %}
             <li class="">
-                <a href="/adhoc/?page={{ adhocs.next_page_number }}{% if query %}&query={{ query }}{% endif %}"
+                <a href="/job/?page={{ jobs.next_page_number }}{% if query %}&query={{ query }}{% endif %}"
                    aria-label="Next">
                     <span aria-hidden="true">next</span></a></li>
         {% endif %}

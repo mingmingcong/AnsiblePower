@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from django.views.generic import View
 from django.template.loader import render_to_string
 from django.template import RequestContext
+from django.db.models import Q
 from adhoc.models import AnsibleAdhoc, AnsibleModule, AnsibleAdhocTask
 from adhoc.tasks import run_adhoc
 from common.utils import playbook_list_hosts
@@ -16,12 +17,18 @@ from common.utils import playbook_list_hosts
 
 
 class AdHocList(TemplateView):
-    page_size = 5
+    page_size = 10
+    page_range = 5
 
     def get(self, request, *args, **kwargs):
         page = request.GET.get('page', 1)
+        query = request.GET.get('query', '')
 
-        adhocs = AnsibleAdhoc.objects.all()
+        if query:
+            adhocs = AnsibleAdhoc.objects.filter(Q(adhoc_args__contains=query) | Q(adhoc_pattern__contains=query) |
+                                                 Q(adhoc_name__contains=query))
+        else:
+            adhocs = AnsibleAdhoc.objects.all()
         paginator = Paginator(adhocs, self.page_size)
 
         # paginate
@@ -35,6 +42,8 @@ class AdHocList(TemplateView):
         res_ctx = {}
         res_ctx.update(adhocs=adhocs)
         res_ctx.update(modules=AnsibleModule.objects.filter(module_name='shell'))
+        if query:
+            res_ctx.update(query=query)
         return render(request, 'adhoc.html', res_ctx)
 
 
@@ -81,7 +90,8 @@ class AdhocLog(TemplateView):
                 pass
                 # 404
             res_ctx = {}
-            res_ctx.update(log=adhoc_task.stderr if adhoc_task.stderr else adhoc_task.stdout, task_host=adhoc_task.task_host)
+            res_ctx.update(log=adhoc_task.stderr if adhoc_task.stderr else adhoc_task.stdout,
+                           task_host=adhoc_task.task_host)
 
             return HttpResponse(simplejson.dumps({'result': res_ctx, 'status': 0}), content_type='application/json')
 

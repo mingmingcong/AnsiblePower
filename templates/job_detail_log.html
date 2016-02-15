@@ -1,7 +1,7 @@
 <thead>
-<th width="35%">task name</th>
-<th width="5%">status</th>
-<th width="60%">task log</th>
+<td width="35%">Task name</td>
+<td width="5%">Status</td>
+<td width="60%">Log</td>
 </thead>
 <tbody>
 {% for task in job_tasks %}
@@ -16,7 +16,9 @@
         </td>
         <td>
             <div class="log-div">
+                {% if task.stdout or task.stderr %}
                 <pre class="log-pre">{% if task.stdout %}{{ task.stdout }}{% else %}{{ task.stderr }}{% endif %}</pre>
+                {% endif %}
             </div>
 
         </td>

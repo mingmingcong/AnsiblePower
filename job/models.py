@@ -8,7 +8,7 @@ class AnsibleJob(models.Model):
     job_pattern = models.CharField(max_length=45, blank=True, null=True)
     start_time = models.DateTimeField(blank=True, null=True)
     end_time = models.DateTimeField(blank=True, null=True)
-    progress_bar = models.IntegerField(blank=True,default=0)
+    # progress_bar = models.IntegerField(blank=True,default=0)
     finish = models.BooleanField(blank=True,default=False)
     ansible_playbook = models.ForeignKey(AnsiblePlaybook, models.DO_NOTHING)
 

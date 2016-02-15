@@ -9,7 +9,10 @@
     <div class="container search-container">
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-search"></i></span>
-            <input class="form-control" type="text" placeholder="search">
+            <form action="{% url 'adhoc_list' %}" method="get">
+                <input class="form-control" type="text" placeholder="search" name="query" value="{% if query %}{{ query }}{% endif %}">
+            </form>
+
 
 
             <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>
@@ -23,9 +26,9 @@
             <thead>
             <tr>
                 <th width="10%">Name</th>
-                <th width="10%"><i class="fa fa-cubes fa-lg"></i> Pattern</th>
+                <th width="10%"><i class="fa fa-laptop fa-lg"></i> Pattern</th>
                 <th width="10%"><i class="fa fa-cubes fa-lg"></i> Module</th>
-                <th width="40%"><i class="fa fa-at fa-lg"></i> Args</th>
+                <th width="40%"><i class="fa fa-location-arrow fa-lg"></i> Args</th>
                 <th width="20%"><i class="fa fa-clock-o fa-lg"></i> Start time</th>
                 <th width="10%"><i class="fa fa-gears fa-lg"></i> Operation</th>
             </tr>
@@ -41,8 +44,8 @@
                     <td>
                         <a class="ops-link" href="{% url 'adhoc_list' %}{{ adhoc.id }}"><i
                                 class="fa fa-file "></i></a>
-                        <a class="ops-link retry" href="javascript:void(0)" adhoc_id="{{ adhoc.id }}"><i
-                                class="fa fa-repeat"></i></a>
+{#                        <a class="ops-link retry" href="javascript:void(0)" adhoc_id="{{ adhoc.id }}"><i#}
+{#                                class="fa fa-repeat"></i></a>#}
                         <a class="ops-link" href="javascript:void(0)"><i class="fa fa-trash "></i></a>
                     </td>
                 </tr>
@@ -52,7 +55,29 @@
 
     </div>
 
-    {% include 'paginate.html' %}
+    {% if adhocs.paginator.num_pages > 1 %}
+    <nav class="page">
+        <ul class="pagination">
+            {% if adhocs.has_previous %}
+                <li class=""><a
+                        href="/adhoc/?page={{ adhocs.previous_page_number }}{% if query %}&query={{ query }}{% endif %}"
+                        aria-label="Previous"><span aria-hidden="true">prev</span></a></li>
+            {% endif %}
+            {% for i in adhocs.paginator.page_range %}
+                <li class="{% if adhocs.number == i %}active{% endif %}"><a
+                        href="/adhoc/?page={{ i }}{% if query %}&query={{ query }}{% endif %}">{{ i }}<span
+                        class="sr-only">(current)</span></a>
+                </li>
+            {% endfor %}
+            {% if adhocs.has_next %}
+                <li class="">
+                    <a href="/adhoc/?page={{ adhocs.next_page_number }}{% if query %}&query={{ query }}{% endif %}"
+                       aria-label="Next">
+                        <span aria-hidden="true">next</span></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
 
 
     <!-- Button trigger modal -->

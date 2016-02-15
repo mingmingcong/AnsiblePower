@@ -2,6 +2,7 @@ from __future__ import division
 import simplejson
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.utils import timezone
+from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, InvalidPage
 from django.template.loader import render_to_string
 from django.template import RequestContext
@@ -16,12 +17,16 @@ from tasks import run_job
 
 
 class AnsibleJobList(TemplateView):
-    page_size = 5
+    page_size = 10
 
     def get(self, request, *args, **kwargs):
         page = request.GET.get('page', 1)
+        query = request.GET.get('query', '')
 
-        jobs = AnsibleJob.objects.all()
+        if query:
+            jobs = AnsibleJob.objects.filter(Q(job_name__contains=query) | Q(job_pattern__contains=query))
+        else:
+            jobs = AnsibleJob.objects.all()
         paginator = Paginator(jobs, self.page_size)
 
         # paginate
@@ -35,6 +40,8 @@ class AnsibleJobList(TemplateView):
         res_ctx = {}
         res_ctx.update(jobs=jobs)
         res_ctx.update(templates=AnsiblePlaybook.objects.all())
+        if query:
+            res_ctx.update(query=query)
         return render(request, 'job.html', res_ctx)
 
 
@@ -112,7 +119,8 @@ class AnsibleJobLog(TemplateView):
         res_ctx = {}
         res_ctx.update(job_tasks=job_tasks)
         res = render_to_string('job_detail_log.html', res_ctx, context_instance=RequestContext(request))
-        return HttpResponse(simplejson.dumps({'result': res, 'status': 0,'host':host}), content_type='application/json')
+        return HttpResponse(simplejson.dumps({'result': res, 'status': 0, 'host': host}),
+                            content_type='application/json')
 
 
 class AnsibleJobExecuete(View):
