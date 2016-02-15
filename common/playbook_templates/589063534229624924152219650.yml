@@ -1,4 +1,0 @@
-- hosts: '{{hosts}}'
-  name: '{{task_id}}:{{instance_type}}'
-  tasks:
-  - {name: adhoc, shell: '{{module_args}}'}
