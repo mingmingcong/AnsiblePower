@@ -1,0 +1,20 @@
+- handlers: []
+  hosts: '{{hosts}}'
+  name: '{{task_id}}:{{instance_type}}'
+  tasks:
+  - ignore_errors: 'False'
+    name: sync files
+    notify: ['']
+    synchronize: src=/Users/taoprogramer/Documents/workspace/Blog dest=/home/deploys
+  - ignore_errors: 'True'
+    name: link uwsgi config
+    notify: ['']
+    shell: ln -s /home/deploys/Blog/Blog.ini /etc/uwsgi/vassals/Blog.ini
+  - ignore_errors: 'False'
+    name: reload nginx
+    notify: ['']
+    shell: nginx -s reload
+  - ignore_errors: 'False'
+    name: reload uwsgi
+    notify: ['']
+    shell: touch /etc/uwsgi/vassals/Blog.ini

@@ -1,7 +1,7 @@
-  - name: '{{task_id}}'
+  - name: '{{task_id}}:{{instance_type}}'
     hosts: '{{hosts}}'
 
     tasks:
 
-    - name: '{{table_name}}:{{task_id}}'
+    - name: adhoc
       module_name : '{{module_args}}'
