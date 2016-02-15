@@ -12,15 +12,15 @@ class PlaybookHandlerInline(admin.TabularInline):
 
 class PlaybookTaskInline(admin.TabularInline):
     model = AnsiblePlaybookTask
-    fields = ('task_name', 'ansible_module', 'module_args','task_notify')
+    fields = ('task_name', 'ansible_module', 'module_args','ignore_errors','task_notify')
     extra = 1
 
 
 class PlaybookAdmin(admin.ModelAdmin):
-    list_display = ('playbook_name', 'playbook_hosts')
+    list_display = ('playbook_name',)
     fieldsets = (
         ('Basic', {
-            'fields': ('playbook_name', 'playbook_hosts')
+            'fields': ('playbook_name',)
         }),
     )
     inlines = [

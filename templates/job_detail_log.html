@@ -1,0 +1,25 @@
+<thead>
+<th width="35%">task name</th>
+<th width="5%">status</th>
+<th width="60%">task log</th>
+</thead>
+<tbody>
+{% for task in job_tasks %}
+    <tr>
+        <td>{{ task.task_name }}</td>
+        <td style="text-align: center">
+            {% if task.failure %}
+                <i class="fa fa-circle status-fail"></i>
+            {% else %}
+                <i class="fa fa-circle status-success"></i>
+            {% endif %}
+        </td>
+        <td>
+            <div class="log-div">
+                <pre class="log-pre">{% if task.stdout %}{{ task.stdout }}{% else %}{{ task.stderr }}{% endif %}</pre>
+            </div>
+
+        </td>
+    </tr>
+{% endfor %}
+</tbody>

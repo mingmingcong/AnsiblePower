@@ -1,0 +1,59 @@
+.form-horizontal {
+    margin-top: 10px;
+}
+
+.form-horizontal {
+    margin-left: 15px;
+}
+
+.command-info {
+    border-left: none;
+    border-right: none;
+}
+
+.host-info {
+    border-left: none;
+    border-right: none;
+}
+
+.progress {
+    margin-bottom: 0;
+}
+
+
+/*@-webkit-keyframes progress-bar-animate {*/
+    /*0% {*/
+        /*width: 0%;*/
+    /*}*/
+    /*100% {*/
+        /*width: 100%;*/
+    /*}*/
+/*}*/
+
+.progress{
+    height: 15px;
+    border-radius: 2px;
+}
+
+
+/*.progress-animate {*/
+    /*-webkit-animation: progress-bar-animate 1s  linear;*/
+/*}*/
+
+
+.log-div{
+    width: 680px;
+}
+
+.log-body {
+    max-height: 500px;
+    overflow: scroll;
+}
+
+.log-pre {
+    color: #1AE222;
+    background-color: #000000;
+    border-radius: 0;
+    font-size: 12px;
+    font-family: Consolas;
+}

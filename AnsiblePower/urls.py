@@ -18,6 +18,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from base.views import Index
 from adhoc.views import AdHocList, AdHocDetail, AdHocExecute, AdhocLog, AdhocDelete
+from job.views import AnsibleJobList,AnsibleJobDetail,AnsibleJobExecuete,AnsibleJobLog
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,5 +29,11 @@ urlpatterns = [
     url(r'^adhoc/(?P<adhoc_id>[0-9]+)/$', AdHocDetail.as_view()),
     url(r'^adhoc/add/$', AdHocExecute.as_view(), name='adhoc_add'),
     url(r'^adhoc/delete/$', AdhocDelete.as_view(), name='adhoc_delete'),
-    url(r'^adhoc/log/$', AdhocLog.as_view(), name='adhoc_log')
+    url(r'^adhoc/log/$', AdhocLog.as_view(), name='adhoc_log'),
+
+    url(r'^job/$',AnsibleJobList.as_view(),name='job_list'),
+    url(r'^job/(?P<job_id>[0-9]+)/$',AnsibleJobDetail.as_view()),
+    url(r'^job/add/$',AnsibleJobExecuete.as_view(),name='job_add'),
+    # url(r'job/delete/$',An)
+    url(r'^job/log/$',AnsibleJobLog.as_view(),name='job_log')
 ]

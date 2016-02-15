@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.template import RequestContext
 from adhoc.models import AnsibleAdhoc, AnsibleModule, AnsibleAdhocTask
 from adhoc.tasks import run_adhoc
-from common.utils import playbook_hosts
+from common.utils import playbook_list_hosts
 
 
 # Create your views here.
@@ -34,7 +34,7 @@ class AdHocList(TemplateView):
 
         res_ctx = {}
         res_ctx.update(adhocs=adhocs)
-        res_ctx.update(modules=AnsibleModule.objects.all())
+        res_ctx.update(modules=AnsibleModule.objects.filter(module_name='shell'))
         return render(request, 'adhoc.html', res_ctx)
 
 
@@ -81,7 +81,7 @@ class AdhocLog(TemplateView):
                 pass
                 # 404
             res_ctx = {}
-            res_ctx.update(stdout=adhoc_task.stdout, stderr=adhoc_task.stderr, task_host=adhoc_task.task_host)
+            res_ctx.update(log=adhoc_task.stderr if adhoc_task.stderr else adhoc_task.stdout, task_host=adhoc_task.task_host)
 
             return HttpResponse(simplejson.dumps({'result': res_ctx, 'status': 0}), content_type='application/json')
 
@@ -107,12 +107,12 @@ class AdHocExecute(View):
                                                 ansible_module_id=module_id, start_time=start_time)
 
         # insert adhoc task
-        for host in playbook_hosts(adhoc.adhoc_pattern):
+        for host in playbook_list_hosts(adhoc.adhoc_pattern):
             AnsibleAdhocTask.objects.create(task_host=host, ansible_adhoc_id=adhoc.id, start_time=timezone.now())
 
         # use celery to execute an adhoc async
         kwargs = dict(
-            table_name='ansibe_adhoc_task',
+            instance_type=AnsibleAdhoc.__name__,
             task_id=adhoc.id,
             hosts=adhoc.adhoc_pattern,
             module_args=adhoc.adhoc_args,

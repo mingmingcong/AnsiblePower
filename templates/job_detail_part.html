@@ -1,0 +1,28 @@
+{% for host in hosts %}
+    <tr>
+        <td>{{ host.ip }}</td>
+        <td>{{ host.start_time|date:"Y-m-d G:i:s" }}</td>
+        <td>
+            {% if host.processing_index %}
+                {{ host.processing_index }}.{{ host.processing_task.task_name }}
+            {% else %}
+                All Done
+            {% endif %}
+        </td>
+        <td>
+            <div class="progress">
+                <div class="progress-bar progress-bar-info" role="progressbar"
+                     aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                     style="width: {{ host.progress_percent }}%">
+                    <span class="sr-only">40% Complete (success)</span>
+                </div>
+            </div>
+        </td>
+        <td>{{ host.end_time|date:"Y-m-d G:i:s" }}</td>
+        <td>{{ host.success }} of {{ host.all }}</td>
+        <td>
+            <a class="task-log" href="#" data-toggle="modal" data-target="#myModal"
+               host={{ host.ip }}><i class="fa fa-search-plus"></i></a>
+        </td>
+    </tr>
+{% endfor %}

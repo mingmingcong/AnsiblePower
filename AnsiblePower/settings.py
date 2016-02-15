@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'base',
     'adhoc',
     'playbook',
-    'common'
+    'common',
+    'job'
 ]
 
 MIDDLEWARE_CLASSES = [
