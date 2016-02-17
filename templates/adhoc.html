@@ -98,21 +98,25 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">name</label>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-8">
                                 <input class="form-control" name="adhoc_name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">pattern</label>
 
-                            <div class="col-sm-6">
-                                <input class="form-control" name="adhoc_pattern">
+                            <div class="col-sm-8">
+                                <select class="form-control" name="adhoc_pattern">
+                                    {% for pattern in patterns %}
+                                    <option value="{{ pattern.value }}">{{ pattern.name }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">module</label>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-8">
                                 <select class="form-control" name="module_id">
                                     {% for module in modules %}
                                         <option value="{{ module.id }}">{{ module.module_name }}</option>
@@ -124,7 +128,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">args</label>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-8">
                                 <input class="form-control" name="adhoc_args">
                             </div>
                         </div>

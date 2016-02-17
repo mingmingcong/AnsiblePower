@@ -12,7 +12,8 @@ basedir = os.path.dirname(os.path.abspath(__file__))
 
 class AnsibleApi():
     def __init__(self, playbook_path, **kwargs):
-        self.ansible_args = join([playbook_path, "-e", """'%s'"""%simplejson.dumps(kwargs)], ' ')
+        inventory_path = kwargs.get('inventory_path','')
+        self.ansible_args = join([playbook_path, "-e", """'%s'"""%simplejson.dumps(kwargs),'-i',inventory_path], ' ')
 
     def run(self):
         local_cmd("ansible-playbook %s" % self.ansible_args)

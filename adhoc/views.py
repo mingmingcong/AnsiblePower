@@ -10,7 +10,8 @@ from django.template import RequestContext
 from django.db.models import Q
 from adhoc.models import AnsibleAdhoc, AnsibleModule, AnsibleAdhocTask
 from adhoc.tasks import run_adhoc
-from common.utils import playbook_list_hosts
+from host.models import AnsibleGroup,AnsibleHost
+from common.utils import playbook_list_hosts,model_to_inventory
 
 
 # Create your views here.
@@ -42,6 +43,13 @@ class AdHocList(TemplateView):
         res_ctx = {}
         res_ctx.update(adhocs=adhocs)
         res_ctx.update(modules=AnsibleModule.objects.filter(module_name='shell'))
+
+        patterns = []
+        patterns.extend([{'name':'[GROUP] %s'%group.group_name,'value':group.group_name} for group in AnsibleGroup.objects.all()])
+        patterns.extend([{'name':'[HOST][%s] %s<%s>'%(host.ansible_group.group_name,host.hostname,host.ip),'value':host.ip} for host in AnsibleHost.objects.all()])
+        patterns.insert(0,{'name':'[ALL]','value':'all'})
+        res_ctx.update(patterns=patterns)
+
         if query:
             res_ctx.update(query=query)
         return render(request, 'adhoc.html', res_ctx)
@@ -116,8 +124,10 @@ class AdHocExecute(View):
                                                 adhoc_args=adhoc_args,
                                                 ansible_module_id=module_id, start_time=start_time)
 
+
+        inventory_path = model_to_inventory(AnsibleGroup.objects.all())
         # insert adhoc task
-        for host in playbook_list_hosts(adhoc.adhoc_pattern):
+        for host in playbook_list_hosts(adhoc.adhoc_pattern,inventory_path):
             AnsibleAdhocTask.objects.create(task_host=host, ansible_adhoc_id=adhoc.id, start_time=timezone.now())
 
         # use celery to execute an adhoc async
@@ -126,7 +136,8 @@ class AdHocExecute(View):
             task_id=adhoc.id,
             hosts=adhoc.adhoc_pattern,
             module_args=adhoc.adhoc_args,
-            module_name=str(adhoc.ansible_module.module_name)
+            module_name=str(adhoc.ansible_module.module_name),
+            inventory_path=inventory_path
         )
 
         run_adhoc.delay(**kwargs)

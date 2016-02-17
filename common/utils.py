@@ -13,6 +13,7 @@ from ansible.playbook.play_context import PlayContext
 from ansible.utils.vars import load_extra_vars
 from ansible.vars import VariableManager
 from string import join
+from django.utils import timezone
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 
@@ -22,8 +23,15 @@ def playbook_random_path():
     generate a random playbook path
     :return: playbook absolute path
     """
-    tmp_pb_name = "%s%s.yml" % (datetime.datetime.now().__hash__(), random.randint(0, 99999999))
+    tmp_pb_name = "%s%s%s.yml" % (
+    datetime.datetime.now().__hash__(), random.randint(0, 99999999), datetime.datetime.strftime(timezone.now(), '-%d'))
     return os.path.join(basedir, 'playbook_templates', tmp_pb_name)
+
+
+def inventory_random_path():
+    tmp_inventory_name = "%s%s%s" % (
+    datetime.datetime.now().__hash__(), random.randint(0, 99999999), datetime.datetime.strftime(timezone.now(), '-%d'))
+    return os.path.join(basedir, 'inventory_temp', tmp_inventory_name)
 
 
 def playbook_module_replace(module_name):
@@ -57,7 +65,7 @@ def playbook_generate_yaml(playbook_model):
             hosts='{{hosts}}',
             name='{{task_id}}:{{instance_type}}',
             tasks=[{'name': str(task.task_name), str(task.ansible_module.module_name): str(task.module_args),
-                    'ignore_errors':True if task.ignore_errors else False,
+                    'ignore_errors': True if task.ignore_errors else False,
                     'notify': str(task.task_notify).split(',')} for task in playbook_model.ansibleplaybooktask_set.all()
                    ],
             handlers=[
@@ -76,17 +84,33 @@ def playbook_generate_yaml(playbook_model):
     return pb_path
 
 
-def playbook_list_hosts(pattern):
+def playbook_list_hosts(pattern, host_list=C.DEFAULT_HOST_LIST):
     loader = DataLoader()
     variable_manager = VariableManager()
-    inventory = Inventory(loader=loader, variable_manager=variable_manager)
+    inventory = Inventory(loader=loader, variable_manager=variable_manager, host_list=host_list)
     return inventory.get_hosts(pattern)
 
 
-def playbook_syntax_check(playbook_path):
-    if os.path.exists(playbook_path):
-        res = local_cmd('ansible-playbook --syntax-check  %s' % playbook_path)
-        print res
+# def playbook_syntax_check(playbook_path):
+#     if os.path.exists(playbook_path):
+#         res = local_cmd('ansible-playbook --syntax-check  %s' % playbook_path)
+#         print res
+
+def model_to_inventory(group_queryset):
+    lines = []
+    for group in group_queryset:
+        lines.append('\n[%s]\n' % group.group_name)
+        for host in group.ansiblehost_set.all():
+            lines.append('%s\n' % host.ip)
+
+        lines.append('\n[%s:vars]\n' % group.group_name)
+        for var in group.ansiblevariable_set.all():
+            lines.append('%s=%s\n' % (var.variable_key, var.variable_value))
+
+    inventory_path = inventory_random_path()
+    with file(inventory_path, 'w') as f:
+        f.writelines(''.join(lines))
+    return inventory_path
 
 
 def local_cmd(cmd, timeout=1200):
@@ -107,11 +131,4 @@ def local_cmd(cmd, timeout=1200):
 
 
 if __name__ == '__main__':
-    print local_cmd('ansible-playbook --syntax-check /Users/taoprogramer/Documents/workspace/AnsiblePower/common/playbook_templates/adhoc.yml')
-    # loader = DataLoader()
-    # variable_manager = VariableManager()
-    # inventory = Inventory(loader=loader, variable_manager=variable_manager, )
-    # print inventory.get_hosts('all')
-
-    # playbook_syntax_check('/Users/taoprogramer/Documents/workspace/AnsiblePower/common/playbooks/adhoc.yml')
-    # print playbook_random_path()
+    playbook_list_hosts('all')

@@ -9,7 +9,8 @@ from django.template import RequestContext
 from django.views.generic import TemplateView, View
 from job.models import AnsibleJob, AnsibleJobTask
 from playbook.models import AnsiblePlaybook
-from common.utils import playbook_list_hosts, playbook_generate_yaml
+from host.models import AnsibleGroup,AnsibleHost
+from common.utils import playbook_list_hosts, playbook_generate_yaml,model_to_inventory
 from tasks import run_job
 
 
@@ -40,8 +41,16 @@ class AnsibleJobList(TemplateView):
         res_ctx = {}
         res_ctx.update(jobs=jobs)
         res_ctx.update(templates=AnsiblePlaybook.objects.all())
+
+        patterns = []
+        patterns.extend([{'name':'[GROUP] %s'%group.group_name,'value':group.group_name} for group in AnsibleGroup.objects.all()])
+        patterns.extend([{'name':'[HOST][%s] %s<%s>'%(host.ansible_group.group_name,host.hostname,host.ip),'value':host.ip} for host in AnsibleHost.objects.all()])
+        patterns.insert(0,{'name':'[ALL]','value':'all'})
+        res_ctx.update(patterns=patterns)
+
         if query:
             res_ctx.update(query=query)
+
         return render(request, 'job.html', res_ctx)
 
 
@@ -146,11 +155,13 @@ class AnsibleJobExecuete(View):
                                                        ]
                                                    )
 
+        inventory_path = model_to_inventory(AnsibleGroup.objects.all())
         playbook_template = AnsiblePlaybook.objects.get(id=template_id)
         kwargs = dict(
             instance_type=AnsibleJob.__name__,
             task_id=job.id,
             hosts=job.job_pattern,
+            inventory_path=inventory_path
         )
 
         run_job.delay(playbook_generate_yaml(playbook_template), **kwargs)

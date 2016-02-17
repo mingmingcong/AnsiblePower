@@ -2,7 +2,7 @@ from __future__ import absolute_import
 import os
 from celery import shared_task
 from common.ansible_api import AnsibleApi
-from common.utils import playbook_module_replace
+from common.utils import playbook_module_replace,inventory_random_path
 from datetime import datetime
 import os
 import time

@@ -1,0 +1,11 @@
+[testserver]
+120.24.45.207
+
+[testserver:vars]
+ansible_user=root
+
+[aws]
+54.223.179.227
+
+[aws:vars]
+ansible_user=prod
