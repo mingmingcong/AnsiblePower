@@ -1,3 +1,4 @@
 *.yml
 *.xml
 *.pyc
+common/inventory_temp/*
