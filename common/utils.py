@@ -6,15 +6,10 @@ import datetime
 import signal
 import subprocess
 import time
-import base64
-from Crypto.Cipher import AES
 from ansible import constants as C
 from ansible.inventory import Inventory
 from ansible.parsing.dataloader import DataLoader
-from ansible.playbook.play_context import PlayContext
-from ansible.utils.vars import load_extra_vars
 from ansible.vars import VariableManager
-from string import join
 from django.utils import timezone
 
 basedir = os.path.dirname(os.path.abspath(__file__))
@@ -130,37 +125,7 @@ def local_cmd(cmd, timeout=1200):
     return process.stderr.read()
 
 
-class Encryptor(object):
-    AES_KEY = '452741f662c2d5e1'
-
-    @staticmethod
-    def encrypt(text):
-        """
-        AES加密，文本必须要16的倍数，不是则补足。
-        :return:
-        """
-        key = Encryptor.AES_KEY
-        cryptor = AES.new(key, AES.MODE_ECB)
-
-        length = 16
-        count = len(text)
-        add = length - (count % length)
-        text += ('\0' * add)
-        ciphertext = base64.encodestring(cryptor.encrypt(text))
-        return join(ciphertext.split('\n'), '')
-
-    @staticmethod
-    def decrypt(text):
-        """
-        解码时去掉末尾空格
-        """
-        key = Encryptor.AES_KEY
-        cryptor = AES.new(key, AES.MODE_ECB)
-        plain_text = cryptor.decrypt(base64.decodestring(text))
-        return plain_text.rstrip('\0')
 
 
 if __name__ == '__main__':
-    print Encryptor.encrypt("dwdwdwdwdwdw").strip()
-
-    print Encryptor.decrypt('XZw8HI7xehxHT4VhHJiOMQ==')
+    pass
