@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from host.models import AnsibleHost, AnsibleGroup
 from adhoc.models import AnsibleAdhoc
 from job.models import AnsibleJob
-from playbook.models import AnsiblePlaybook
+from playbook.models import AnsiblePlaybook,AnsibleModule
 from collections import OrderedDict
 import simplejson
 
@@ -27,6 +27,7 @@ class Dashboard(TemplateView):
         res_ctx.update(commands=AnsibleAdhoc.objects.all().count())
         res_ctx.update(jobs=AnsibleJob.objects.all().count())
         res_ctx.update(playbooks=AnsiblePlaybook.objects.all().count())
+        res_ctx.update(modules=AnsibleModule.objects.all().count())
 
         start_time = timezone.now() + timedelta(days=-30)
 

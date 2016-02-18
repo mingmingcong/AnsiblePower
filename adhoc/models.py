@@ -15,7 +15,6 @@ class AnsibleAdhoc(models.Model):
     auth_user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
-        managed = False
         db_table = 'ansible_adhoc'
         ordering = ['-start_time']
 
@@ -31,7 +30,6 @@ class AnsibleAdhocTask(models.Model):
     ansible_adhoc = models.ForeignKey(AnsibleAdhoc, models.DO_NOTHING)
 
     class Meta:
-        managed = False
         db_table = 'ansible_adhoc_task'
         unique_together = (('id', 'ansible_adhoc'),)
 
@@ -41,6 +39,5 @@ class AnsibleModule(models.Model):
     module_describe = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'ansible_module'
         ordering = ['module_name']

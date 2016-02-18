@@ -9,7 +9,6 @@ class AnsibleModule(models.Model):
     module_describe = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'ansible_module'
         verbose_name_plural = 'modules'
         verbose_name = 'module'
@@ -23,7 +22,6 @@ class AnsiblePlaybook(models.Model):
     playbook_hosts = models.CharField(max_length=45, blank=True, null=True, verbose_name='hosts',default="'{{hosts}}'")
     playbook_path = models.CharField(max_length=200, blank=True, null=True, verbose_name='playbook_path')
     class Meta:
-        managed = False
         db_table = 'ansible_playbook'
         verbose_name = 'playbook'
 
@@ -39,7 +37,6 @@ class AnsiblePlaybookHandler(models.Model):
     ansible_playbook = models.ForeignKey(AnsiblePlaybook, models.CASCADE)
 
     class Meta:
-        managed = False
         db_table = 'ansible_playbook_handler'
         verbose_name = 'handler'
 
@@ -56,7 +53,6 @@ class AnsiblePlaybookTask(models.Model):
     ignore_errors = models.BooleanField(default=False)
 
     class Meta:
-        managed = False
         db_table = 'ansible_playbook_task'
         verbose_name = 'task'
 

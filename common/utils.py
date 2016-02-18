@@ -6,6 +6,8 @@ import datetime
 import signal
 import subprocess
 import time
+import base64
+from Crypto.Cipher import AES
 from ansible import constants as C
 from ansible.inventory import Inventory
 from ansible.parsing.dataloader import DataLoader
@@ -24,13 +26,15 @@ def playbook_random_path():
     :return: playbook absolute path
     """
     tmp_pb_name = "%s%s%s.yml" % (
-    datetime.datetime.now().__hash__(), random.randint(0, 99999999), datetime.datetime.strftime(timezone.now(), '-%d'))
+        datetime.datetime.now().__hash__(), random.randint(0, 99999999),
+        datetime.datetime.strftime(timezone.now(), '-%d'))
     return os.path.join(basedir, 'playbook_templates', tmp_pb_name)
 
 
 def inventory_random_path():
     tmp_inventory_name = "%s%s%s" % (
-    datetime.datetime.now().__hash__(), random.randint(0, 99999999), datetime.datetime.strftime(timezone.now(), '-%d'))
+        datetime.datetime.now().__hash__(), random.randint(0, 99999999),
+        datetime.datetime.strftime(timezone.now(), '-%d'))
     return os.path.join(basedir, 'inventory_temp', tmp_inventory_name)
 
 
@@ -101,11 +105,7 @@ def model_to_inventory(group_queryset):
     for group in group_queryset:
         lines.append('\n[%s]\n' % group.group_name)
         for host in group.ansiblehost_set.all():
-            lines.append('%s\n' % host.ip)
-
-        lines.append('\n[%s:vars]\n' % group.group_name)
-        for var in group.ansiblevariable_set.all():
-            lines.append('%s=%s\n' % (var.variable_key, var.variable_value))
+            lines.append('%s ansible_user=%s\n' % (host.ip, host.username))
 
     inventory_path = inventory_random_path()
     with file(inventory_path, 'w') as f:
@@ -130,5 +130,37 @@ def local_cmd(cmd, timeout=1200):
     return process.stderr.read()
 
 
+class Encryptor(object):
+    AES_KEY = '452741f662c2d5e1'
+
+    @staticmethod
+    def encrypt(text):
+        """
+        AES加密，文本必须要16的倍数，不是则补足。
+        :return:
+        """
+        key = Encryptor.AES_KEY
+        cryptor = AES.new(key, AES.MODE_ECB)
+
+        length = 16
+        count = len(text)
+        add = length - (count % length)
+        text += ('\0' * add)
+        ciphertext = base64.encodestring(cryptor.encrypt(text))
+        return join(ciphertext.split('\n'), '')
+
+    @staticmethod
+    def decrypt(text):
+        """
+        解码时去掉末尾空格
+        """
+        key = Encryptor.AES_KEY
+        cryptor = AES.new(key, AES.MODE_ECB)
+        plain_text = cryptor.decrypt(base64.decodestring(text))
+        return plain_text.rstrip('\0')
+
+
 if __name__ == '__main__':
-    playbook_list_hosts('all')
+    print Encryptor.encrypt("dwdwdwdwdwdw").strip()
+
+    print Encryptor.decrypt('XZw8HI7xehxHT4VhHJiOMQ==')

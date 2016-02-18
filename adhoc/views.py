@@ -19,9 +19,7 @@ from common.utils import playbook_list_hosts, model_to_inventory
 
 
 class AdHocList(LoginRequiredMixin, TemplateView):
-    login_url = '/'
     page_size = 10
-    page_range = 5
 
     def get(self, request, *args, **kwargs):
         page = request.GET.get('page', 1)
@@ -52,7 +50,7 @@ class AdHocList(LoginRequiredMixin, TemplateView):
         patterns.extend(
             [{'name': '[HOST][%s] %s %s' % (host.ansible_group.group_name, host.hostname, host.ip), 'value': host.ip}
              for host in AnsibleHost.objects.all()])
-        patterns.insert(0, {'name': '[ALL] all hosts', 'value': 'all'})
+        patterns.insert(0, {'name': '[ALL]', 'value': 'all'})
         res_ctx.update(patterns=patterns)
 
         if query:

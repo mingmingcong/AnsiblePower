@@ -45,7 +45,7 @@ class AnsibleJobList(LoginRequiredMixin,TemplateView):
 
         patterns = []
         patterns.extend([{'name':'[GROUP] %s'%group.group_name,'value':group.group_name} for group in AnsibleGroup.objects.all()])
-        patterns.extend([{'name':'[HOST][%s] %s<%s>'%(host.ansible_group.group_name,host.hostname,host.ip),'value':host.ip} for host in AnsibleHost.objects.all()])
+        patterns.extend([{'name':'[HOST][%s] %s %s '%(host.ansible_group.group_name,host.hostname,host.ip),'value':host.ip} for host in AnsibleHost.objects.all()])
         patterns.insert(0,{'name':'[ALL]','value':'all'})
         res_ctx.update(patterns=patterns)
 

@@ -21,19 +21,21 @@
             <ul class="nav navbar-nav">
                 <li><a href="{% url 'index' %}">Dashboard</a></li>
                 {% if request.user.is_authenticated %}
-                <li><a href="{% url 'adhoc_list' %}">Commands</a></li>
-                <li><a href="{% url 'job_list' %}">Jobs</a></li>
-                <li><a href="/admin/host">Groups</a></li>
-                <li><a href="/admin/playbook/ansibleplaybook/">Playbook Templates</a></li>
+                    <li><a href="{% url 'adhoc_list' %}">Commands</a></li>
+                    <li><a href="{% url 'job_list' %}">Jobs</a></li>
+                    <li><a href="/admin/host">Hosts</a></li>
+                    <li><a href="/admin/playbook/ansibleplaybook/">Playbook Templates</a></li>
                 {% endif %}
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if request.user.is_authenticated %}
                     <li><a href="#"><i class="fa fa-user fa-lg"></i> {{ request.user.username }}</a></li>
-                    <li><a href="{% url 'logout' %}?next={{ request.path }}"><i class="fa fa-sign-out fa-lg"></i> sign out</a></li>
+                    <li><a href="{% url 'logout' %}?next={{ request.path }}"><i class="fa fa-sign-out fa-lg"></i> sign
+                        out</a></li>
                 {% else %}
-                    <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in fa-lg"></i> sign in</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in fa-lg"></i> sign
+                        in</a></li>
                 {% endif %}
 
 
@@ -71,8 +73,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 <script type="text/javascript" src="/static/js/vender/jquery-1.11.3.min.js"></script>

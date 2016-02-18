@@ -16,6 +16,7 @@ var Dashboard = {
                 console.log(data);
                 $("#groups").html(data.groups);
                 $("#hosts").html(data.hosts);
+                $("#modules").html(data.modules);
                 $("#commands").html(data.commands);
                 $("#jobs").html(data.jobs);
                 $("#playbooks").html(data.playbooks);

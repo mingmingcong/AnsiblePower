@@ -16,7 +16,6 @@ class AnsibleJob(models.Model):
 
 
     class Meta:
-        managed = False
         db_table = 'ansible_job'
         ordering = ['-start_time']
 
@@ -33,5 +32,4 @@ class AnsibleJobTask(models.Model):
     ansible_job = models.ForeignKey(AnsibleJob, models.DO_NOTHING)
 
     class Meta:
-        managed = False
         db_table = 'ansible_job_task'

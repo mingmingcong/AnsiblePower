@@ -9,7 +9,6 @@ class AnsibleGroup(models.Model):
     group_name = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'ansible_group'
         verbose_name = 'group'
         verbose_name_plural = 'group'
@@ -25,7 +24,6 @@ class AnsibleHost(models.Model):
     ansible_group = models.ForeignKey(AnsibleGroup, models.DO_NOTHING, verbose_name='group')
 
     class Meta:
-        managed = False
         db_table = 'ansible_host'
         verbose_name = 'host'
         verbose_name_plural = 'host'
@@ -42,7 +40,6 @@ class AnsibleVariable(models.Model):
     ansible_group = models.ForeignKey(AnsibleGroup, models.DO_NOTHING)
 
     class Meta:
-        managed = False
         db_table = 'ansible_variable'
 
     def __unicode__(self):

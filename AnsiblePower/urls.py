@@ -40,5 +40,6 @@ urlpatterns = [
     url(r'^job/(?P<job_id>[0-9]+)/$', AnsibleJobDetail.as_view()),
     url(r'^job/add/$', AnsibleJobExecuete.as_view(), name='job_add'),
     # url(r'job/delete/$',An)
-    url(r'^job/log/$', AnsibleJobLog.as_view(), name='job_log')
+    url(r'^job/log/$', AnsibleJobLog.as_view(), name='job_log'),
+
 ]
