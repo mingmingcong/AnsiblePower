@@ -15,6 +15,9 @@ class PlaybookTaskInline(admin.TabularInline):
     fields = ('task_name', 'ansible_module', 'module_args','ignore_errors','task_notify')
     extra = 1
 
+class ModuleAdmin(admin.ModelAdmin):
+    list_display = ('module_name','module_describe')
+    fields = ('module_name','module_describe')
 
 class PlaybookAdmin(admin.ModelAdmin):
     list_display = ('playbook_name',)
@@ -30,3 +33,4 @@ class PlaybookAdmin(admin.ModelAdmin):
 
 
 admin.site.register(AnsiblePlaybook, PlaybookAdmin)
+admin.site.register(AnsibleModule,ModuleAdmin)

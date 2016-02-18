@@ -11,6 +11,8 @@ class AnsibleModule(models.Model):
     class Meta:
         managed = False
         db_table = 'ansible_module'
+        verbose_name_plural = 'modules'
+        verbose_name = 'module'
 
     def __unicode__(self):
         return unicode(self.module_name)
