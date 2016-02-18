@@ -19,14 +19,24 @@
         </div>
         <nav id="bs-navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/admin/host">Hosts</a></li>
+                <li><a href="{% url 'index' %}">Dashboard</a></li>
+                {% if request.user.is_authenticated %}
                 <li><a href="{% url 'adhoc_list' %}">Commands</a></li>
-                <li><a href="{% url 'job_list' %}">Run Playbooks</a></li>
+                <li><a href="{% url 'job_list' %}">Jobs</a></li>
+                <li><a href="/admin/host">Groups</a></li>
                 <li><a href="/admin/playbook/ansibleplaybook/">Playbook Templates</a></li>
+                {% endif %}
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><i class="fa fa-user fa-lg"></i> admin</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="#"><i class="fa fa-user fa-lg"></i> {{ request.user.username }}</a></li>
+                    <li><a href="{% url 'logout' %}?next={{ request.path }}"><i class="fa fa-sign-out fa-lg"></i> sign out</a></li>
+                {% else %}
+                    <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in fa-lg"></i> sign in</a></li>
+                {% endif %}
+
+
             </ul>
 
         </nav>
@@ -35,6 +45,33 @@
 
 {% block content %}
 {% endblock %}
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content login-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Please Sign In </h4>
+            </div>
+            <form class="form-horizontal " action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body login-body login-input">
+                    <input type="text" class="form-control" name="username" placeholder="username">
+                    <input type="password" class="form-control" name="password" placeholder="password">
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+                    <button type="submit" class="btn btn-primary">sign in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 
 

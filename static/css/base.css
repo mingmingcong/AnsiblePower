@@ -13,3 +13,12 @@
 .status-fail{
     color: red;
 }
+
+.login-content{
+    width: 300px;
+    margin: auto;
+}
+
+.login-content input{
+    margin-top: 10px;
+}

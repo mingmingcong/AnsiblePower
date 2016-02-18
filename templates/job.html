@@ -28,7 +28,8 @@
             <tr>
                 <th width="10%">Name</th>
                 <th width="10%"><i class="fa fa-cubes fa-lg"></i> Pattern</th>
-                <th width="50%"><i class="fa fa-picture-o fa-lg"></i> Playbook Template</th>
+                <th width="40%"><i class="fa fa-picture-o fa-lg"></i> Playbook Template</th>
+                <th width="10%"><i class="fa fa-user fa-lg"></i> By who</th>
                 <th width="20%"><i class="fa fa-clock-o fa-lg"></i> Start time</th>
                 <th width="10%"><i class="fa fa-gears fa-lg"></i> Operation</th>
             </tr>
@@ -41,13 +42,14 @@
                     <td>
                         <a href="/admin/playbook/ansibleplaybook/{{ job.ansible_playbook.id }}/change/">{{ job.ansible_playbook.playbook_name }}</a>
                     </td>
+                    <td>{{ job.auth_user.username }}</td>
                     <td>{{ job.start_time|date:"Y-m-d G:i:s" }}</td>
                     <td>
                         <a class="ops-link" href="{% url 'job_list' %}{{ job.id }}"><i
-                                class="fa fa-file "></i></a>
+                                class="fa fa-file fa-lg"></i></a>
 {#                        <a class="ops-link retry" href="javascript:void(0)" adhoc_id="{{ adhoc.id }}"><i#}
 {#                                class="fa fa-repeat"></i></a>#}
-                        <a class="ops-link" href="javascript:void(0)"><i class="fa fa-trash "></i></a>
+                        <a class="ops-link" href="javascript:void(0)"><i class="fa fa-trash fa-lg "></i></a>
 
                     </td>
                 </tr>

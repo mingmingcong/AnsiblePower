@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from playbook.models import AnsiblePlaybook
+from ansible_auth.models import AuthUser
 # Create your models here.
 class AnsibleJob(models.Model):
     job_name = models.CharField(max_length=45, blank=True, null=True)
@@ -11,6 +12,8 @@ class AnsibleJob(models.Model):
     # progress_bar = models.IntegerField(blank=True,default=0)
     finish = models.BooleanField(blank=True,default=False)
     ansible_playbook = models.ForeignKey(AnsiblePlaybook, models.DO_NOTHING)
+    auth_user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
 
     class Meta:
         managed = False

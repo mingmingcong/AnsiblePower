@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,12 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'base',
+    'dashboard',
     'adhoc',
     'playbook',
     'common',
     'job',
-    'host'
+    'host',
+    'ansible_auth'
+
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -76,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'AnsiblePower.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
@@ -89,7 +88,6 @@ DATABASES = {
         'USER': 'root',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -109,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -123,7 +120,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
@@ -134,12 +130,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static').replace('\\', '/'),
 )
 
-LOGIN_URL = '/article/'
-
+LOGIN_URL = '/'
 
 # celery
 BROKER_URL = 'amqp://guest:guest@120.24.45.207:5672/ansible'
-
 
 CELERYD_MAX_TASKS_PER_CHILD = 20000
 CELERYD_PREFETCH_MULTIPLIER = 30
@@ -148,6 +142,6 @@ CELERY_ANNOTATIONS = {"*": {"rate_limit": "10/s"}}
 CELERY_IGNORE_RESULT = True
 
 
-#CELERY_DEFAULT_EXCHANGE_TYPE = 'direct'
+# CELERY_DEFAULT_EXCHANGE_TYPE = 'direct'
 
 # CELERY_IMPORTS = ("AnsiblePower.tasks", )

@@ -28,7 +28,8 @@
                 <th width="10%">Name</th>
                 <th width="10%"><i class="fa fa-laptop fa-lg"></i> Pattern</th>
                 <th width="10%"><i class="fa fa-cubes fa-lg"></i> Module</th>
-                <th width="40%"><i class="fa fa-location-arrow fa-lg"></i> Args</th>
+                <th width="30%"><i class="fa fa-location-arrow fa-lg"></i> Args</th>
+                 <th width="10%"><i class="fa fa-user fa-lg"></i> By who</th>
                 <th width="20%"><i class="fa fa-clock-o fa-lg"></i> Start time</th>
                 <th width="10%"><i class="fa fa-gears fa-lg"></i> Operation</th>
             </tr>
@@ -40,13 +41,14 @@
                     <td>{{ adhoc.adhoc_pattern }}</td>
                     <td>{{ adhoc.ansible_module.module_name }}</td>
                     <td>{{ adhoc.adhoc_args }}</td>
+                    <td>{{ adhoc.auth_user.username }}</td>
                     <td>{{ adhoc.start_time|date:"Y-m-d G:i:s" }}</td>
                     <td>
                         <a class="ops-link" href="{% url 'adhoc_list' %}{{ adhoc.id }}"><i
-                                class="fa fa-file "></i></a>
+                                class="fa fa-file fa-lg "></i></a>
 {#                        <a class="ops-link retry" href="javascript:void(0)" adhoc_id="{{ adhoc.id }}"><i#}
 {#                                class="fa fa-repeat"></i></a>#}
-                        <a class="ops-link" href="javascript:void(0)"><i class="fa fa-trash "></i></a>
+                        <a class="ops-link" href="javascript:void(0)"><i class="fa fa-trash fa-lg"></i></a>
                     </td>
                 </tr>
             {% endfor %}

@@ -6,6 +6,7 @@
 .overview-item {
     text-align: center;
     margin-bottom: 10px;
+    width: 20%;
 
 }
 
@@ -16,7 +17,6 @@
 }
 
 .status {
-    border: 1px solid #D8D8D8;
     margin-top: 20px;
     padding-left: 0;
     padding-right: 0;

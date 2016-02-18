@@ -4,6 +4,7 @@ from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.utils import timezone
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, InvalidPage
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.views.generic import TemplateView, View
@@ -17,7 +18,7 @@ from tasks import run_job
 # Create your views here.
 
 
-class AnsibleJobList(TemplateView):
+class AnsibleJobList(LoginRequiredMixin,TemplateView):
     page_size = 10
 
     def get(self, request, *args, **kwargs):
@@ -54,7 +55,7 @@ class AnsibleJobList(TemplateView):
         return render(request, 'job.html', res_ctx)
 
 
-class AnsibleJobDetail(TemplateView):
+class AnsibleJobDetail(LoginRequiredMixin,TemplateView):
     def get(self, request, *args, **kwargs):
         job_id = kwargs.get('job_id', 1)
         res_ctx = {}
@@ -120,7 +121,7 @@ class AnsibleJobDetail(TemplateView):
             return render(request, 'job_detail.html', res_ctx)
 
 
-class AnsibleJobLog(TemplateView):
+class AnsibleJobLog(LoginRequiredMixin,TemplateView):
     def get(self, request, *args, **kwargs):
         job_id = request.GET.get('job_id', '')
         host = request.GET.get('host', '')
@@ -132,7 +133,7 @@ class AnsibleJobLog(TemplateView):
                             content_type='application/json')
 
 
-class AnsibleJobExecuete(View):
+class AnsibleJobExecuete(LoginRequiredMixin,View):
     def post(self, request, *args, **kwargs):
         job_name = request.POST.get('job_name', '')
         job_pattern = request.POST.get('job_pattern', '')
@@ -143,7 +144,7 @@ class AnsibleJobExecuete(View):
             pass
         else:
             job = AnsibleJob.objects.create(job_name=job_name, job_pattern=job_pattern, start_time=start_time,
-                                            ansible_playbook_id=template_id)
+                                            ansible_playbook_id=template_id,auth_user_id=request.user.id)
             for host in playbook_list_hosts(job.job_pattern):
                 AnsibleJobTask.objects.bulk_create([
                                                        AnsibleJobTask(task_name=task.task_name,

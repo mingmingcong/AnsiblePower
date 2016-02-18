@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
-
+from ansible_auth.models import AuthUser
 
 # Create your models here.
 
@@ -10,8 +10,9 @@ class AnsibleAdhoc(models.Model):
     adhoc_args = models.CharField(max_length=200, blank=True, null=True)
     start_time = models.DateTimeField(blank=True, null=True)
     end_time = models.DateTimeField(blank=True, null=True)
-    finish = models.BooleanField(default=False)
+    finish = models.IntegerField(blank=True, null=True)
     ansible_module = models.ForeignKey('AnsibleModule', models.DO_NOTHING)
+    auth_user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
         managed = False

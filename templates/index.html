@@ -6,76 +6,142 @@
 
 {% block content %}
     <div class="container overview">
-        <div class="col-lg-2 overview-item">
-            <div class="row"><h1>51</h1></div>
-            <div class="row">hosts</div>
-        </div>
-        <div class="col-lg-2 overview-item">
-            <div class="row"><h1>51</h1></div>
-            <div class="row">Failed hosts</div>
-        </div>
-        <div class="col-lg-2 overview-item">
-            <div class="row"><h1>51</h1></div>
-            <div class="row">Inventories</div>
-        </div>
-        <div class="col-lg-2 overview-item">
-            <div class="row"><h1>51</h1></div>
-            <div class="row">Inventory Failures</div>
-        </div>
-        <div class="col-lg-2 overview-item">
-            <div class="row"><h1>51</h1></div>
-            <div class="row">Projects</div>
-        </div>
-        <div class="col-lg-2 overview-item">
-            <div class="row"><h1>51</h1></div>
-            <div class="row">Project Sync Failures</div>
+
+        <div>
+            <div class="col-lg-2 overview-item">
+                <div class="row"><h1 id="groups">N/A</h1></div>
+                <div class="row">Groups</div>
+            </div>
+            <div class="col-lg-2 overview-item">
+                <div class="row"><h1 id="hosts">N/A</h1></div>
+                <div class="row">Hosts</div>
+            </div>
+            <div class="col-lg-2 overview-item">
+                <div class="row"><h1 id="commands">N/A</h1></div>
+                <div class="row">Commands</div>
+            </div>
+            <div class="col-lg-2 overview-item">
+                <div class="row"><h1 id="jobs">N/A</h1></div>
+                <div class="row">Jobs</div>
+            </div>
+            <div class="col-lg-2 overview-item">
+                <div class="row"><h1 id="playbooks">N/A</h1></div>
+                <div class="row">Playbook Templates</div>
+            </div>
         </div>
 
+    </div>
+
+
+
+
+    <div class="container job-overview">
+        <div class="panel panel-info job-overview-left">
+            <div class="panel-heading">
+                <h3 class="panel-title">Recently Commands (30 days)</h3>
+            </div>
+            <div class="panel-body">
+                <div id="recent-command" style="width: 550px;height: 300px"></div>
+            </div>
+            <div class="panel-footer">
+                {#                <button class="btn btn-primary">See all Job Templates</button>#}
+            </div>
+        </div>
+        <div class="panel panel-warning job-overview-right">
+            <div class="panel-heading">
+                <h3 class="panel-title">Recent Jobs ( 30 days)</h3>
+            </div>
+            <div class="panel-body">
+                <div id="recent-job" style="width: 550px;height: 300px"></div>
+            </div>
+            <div class="panel-footer">
+                {#                <button class="btn btn-primary">See all Job Runs</button>#}
+            </div>
+        </div>
     </div>
 
 
     <div class="container status">
-        <div>
-
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
-                                                          data-toggle="tab">Job Status</a></li>
-                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
-                                           data-toggle="tab">Host Status</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="home"></div>
-                <div role="tabpanel" class="tab-pane" id="profile"></div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Recent User Operation</h3>
             </div>
+            <div class="panel-body">
 
+                <div class="container host-overview"></div>
+
+                <div class="container host-detail"></div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td>user</td>
+                        <td>when</td>
+                        <td>Group</td>
+                        <td>Status</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                    </tr>
+                     <tr>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                    </tr>
+                     <tr>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                    </tr>
+                     <tr>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                    </tr>
+                     <tr>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                    </tr>
+                     <tr>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                    </tr>
+                     <tr>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                        <td>dwdw</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <div class="container job-overview">
-        <div class="panel panel-default job-overview-left">
-            <div class="panel-heading">
-                <h3 class="panel-title">Recently Used Job Templates</h3>
-            </div>
-            <div class="panel-body">
-                Panel content
-            </div>
-            <div class="panel-footer">
-                <button class="btn btn-primary">See all Job Templates</button>
-            </div>
-        </div>
-        <div class="panel panel-default job-overview-right">
-            <div class="panel-heading">
-                <h3 class="panel-title">Recent Job Runs</h3>
-            </div>
-            <div class="panel-body">
-                Panel content
-            </div>
-            <div class="panel-footer">
-                <button class="btn btn-primary">See all Job Runs</button>
-            </div>
-        </div>
-    </div>
+
+
+
+{% endblock %}
+
+
+{% block script %}
+    <script type="text/javascript" src="/static/js/vender/echarts.common.min.js"></script>
+    <script type="text/javascript" src="/static/js/index.js"></script>
+    <script>
+        var dashboard = "{% url 'dashboard' %}"
+        $(function () {
+            Dashboard.init()
+        })
+    </script>
 {% endblock %}

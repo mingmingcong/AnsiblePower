@@ -6,18 +6,18 @@
         <td>
             {% if task.finish == True %}
                 {% if task.failure == True %}
-                    <i class="fa fa-circle status-fail"></i>
+                    <i class="fa fa-circle fa-lg status-fail"></i>
                 {% else %}
-                    <i class="fa fa-circle status-success"></i>
+                    <i class="fa fa-circle fa-lg  status-success"></i>
                 {% endif %}
 
             {% else %}
-                <i class="fa fa-circle status-process"></i>
+                <i class="fa fa-circle fa-lg status-process"></i>
             {% endif %}
         </td>
         <td>
             <a class="task-log" href="#" data-toggle="modal" data-target="#myModal" adhoc_task_id="{{ task.id }}"><i
-                    class="fa fa-search-plus"></i></a>
+                    class="fa fa-search-plus fa-lg"></i></a>
         </td>
     </tr>
 {% endfor %}
