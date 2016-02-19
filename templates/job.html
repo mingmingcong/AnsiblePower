@@ -67,7 +67,7 @@
                         href="/job/?page={{ jobs.previous_page_number }}{% if query %}&query={{ query }}{% endif %}"
                         aria-label="Previous"><span aria-hidden="true">prev</span></a></li>
             {% endif %}
-            {% for i in jobs.paginator.page_range %}
+            {% for i in page_range %}
                 <li class="{% if jobs.number == i %}active{% endif %}"><a
                         href="/job/?page={{ i }}{% if query %}&query={{ query }}{% endif %}">{{ i }}<span
                         class="sr-only">(current)</span></a>

@@ -20,6 +20,7 @@ from tasks import run_job
 
 class AnsibleJobList(LoginRequiredMixin,TemplateView):
     page_size = 10
+    page_show_range = 6
 
     def get(self, request, *args, **kwargs):
         page = request.GET.get('page', 1)
@@ -39,7 +40,18 @@ class AnsibleJobList(LoginRequiredMixin,TemplateView):
         except InvalidPage:
             jobs = paginator.page(paginator.num_pages)
 
+        total_page = paginator.num_pages
+        page_show_range = self.page_show_range
+        page = int(page)
+        if page <= page_show_range:
+            page_range = xrange(1, page_show_range + 1)
+        elif page_show_range < page <= (total_page - page_show_range):
+            page_range = xrange(page - page_show_range / 2, page + page_show_range / 2)
+        else:
+            page_range = xrange(total_page - page_show_range + 1, total_page + 1)
+
         res_ctx = {}
+        res_ctx.update(page_range=page_range)
         res_ctx.update(jobs=jobs)
         res_ctx.update(templates=AnsiblePlaybook.objects.all())
 

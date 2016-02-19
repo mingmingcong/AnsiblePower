@@ -65,7 +65,7 @@
                         href="/adhoc/?page={{ adhocs.previous_page_number }}{% if query %}&query={{ query }}{% endif %}"
                         aria-label="Previous"><span aria-hidden="true">prev</span></a></li>
             {% endif %}
-            {% for i in adhocs.paginator.page_range %}
+            {% for i in page_range %}
                 <li class="{% if adhocs.number == i %}active{% endif %}"><a
                         href="/adhoc/?page={{ i }}{% if query %}&query={{ query }}{% endif %}">{{ i }}<span
                         class="sr-only">(current)</span></a>

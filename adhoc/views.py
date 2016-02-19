@@ -20,6 +20,7 @@ from common.utils import playbook_list_hosts, model_to_inventory
 
 class AdHocList(LoginRequiredMixin, TemplateView):
     page_size = 10
+    page_show_range = 6
 
     def get(self, request, *args, **kwargs):
         page = request.GET.get('page', 1)
@@ -40,7 +41,18 @@ class AdHocList(LoginRequiredMixin, TemplateView):
         except InvalidPage:
             adhocs = paginator.page(paginator.num_pages)
 
+        total_page = paginator.num_pages
+        page_show_range = self.page_show_range
+        page = int(page)
+        if page <= page_show_range:
+            page_range = xrange(1, page_show_range + 1)
+        elif page_show_range < page <= (total_page - page_show_range):
+            page_range = xrange(page - page_show_range / 2, page + page_show_range / 2)
+        else:
+            page_range = xrange(total_page - page_show_range + 1, total_page + 1)
+
         res_ctx = {}
+        res_ctx.update(page_range=page_range)
         res_ctx.update(adhocs=adhocs)
         res_ctx.update(modules=AnsibleModule.objects.filter(module_name='shell'))
 
@@ -55,6 +67,7 @@ class AdHocList(LoginRequiredMixin, TemplateView):
 
         if query:
             res_ctx.update(query=query)
+
         return render(request, 'adhoc.html', res_ctx)
 
 
@@ -128,7 +141,6 @@ class AdHocExecute(LoginRequiredMixin, View):
                                                 adhoc_args=adhoc_args,
                                                 ansible_module_id=module_id, start_time=start_time,
                                                 auth_user_id=request.user.id)
-
 
         inventory_path = model_to_inventory(AnsibleGroup.objects.all())
         # insert adhoc task
