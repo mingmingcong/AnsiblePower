@@ -16,6 +16,7 @@ class AuthUser(models.Model):
     date_joined = models.DateTimeField()
 
     class Meta:
+        managed = False
         db_table = 'auth_user'
 
     def __unicode__(self):
